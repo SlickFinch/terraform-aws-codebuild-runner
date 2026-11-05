@@ -162,3 +162,25 @@ run "bad_url" {
   }
   expect_failures = [var.github_repository_url]
 }
+
+run "egress_ports" {
+  variables {
+    egress_cidr_blocks = ["0.0.0.0/0"]
+    egress_tcp_ports   = [443]
+  }
+  assert {
+    condition     = alltrue([for r in aws_vpc_security_group_egress_rule.this : r.ip_protocol == "tcp" && r.from_port == 443 && r.to_port == 443])
+    error_message = "With egress_tcp_ports set, egress must be TCP on those ports only."
+  }
+  assert {
+    condition     = length(aws_vpc_security_group_egress_rule.this) == 1
+    error_message = "One rule per CIDR and port."
+  }
+}
+
+run "egress_all_by_default" {
+  assert {
+    condition     = alltrue([for r in aws_vpc_security_group_egress_rule.this : r.ip_protocol == "-1"])
+    error_message = "Without egress_tcp_ports, egress stays open on every protocol, as in v1.0.0."
+  }
+}

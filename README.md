@@ -34,7 +34,7 @@ See [examples/complete](examples/complete) for a VPC, the secret and the apply o
 - **Source credential.** CodeBuild keeps one GitHub source credential per account and Region. The module creates it by default. Set `create_source_credential = false` if something else manages it. The project also authenticates on its own.
 - **Token scopes.** A classic token needs `repo`. A fine-grained token needs Contents (read), Commit statuses (read and write), Webhooks (read and write) and Administration (read and write) on the repository.
 - **Service role.** It can write to its log group, manage the build's network interfaces in `subnet_ids`, and read the one credential. It has no `sts` or `iam` actions. Jobs get AWS access through GitHub OIDC.
-- **Network.** The security group has no ingress rules. Egress follows `egress_cidr_blocks`. The subnets need NAT to reach GitHub.
+- **Network.** The security group has no ingress rules. Egress follows `egress_cidr_blocks`, on every port unless `egress_tcp_ports` lists the TCP ports to allow (for example `[443]`). The subnets need NAT to reach GitHub.
 
 ## Apply order
 
@@ -105,6 +105,7 @@ No modules.
 | <a name="input_create_source_credential"></a> [create\_source\_credential](#input\_create\_source\_credential) | Create the account-wide GitHub source credential. CodeBuild keeps one per account and Region, so set false if something else manages it. The project authenticates on its own either way. | `bool` | `true` | no |
 | <a name="input_credential_type"></a> [credential\_type](#input\_credential\_type) | How CodeBuild authenticates to GitHub: SECRETS\_MANAGER (a secret that holds a personal access token) or CODECONNECTIONS (the AWS Connector for GitHub app). | `string` | `"SECRETS_MANAGER"` | no |
 | <a name="input_egress_cidr_blocks"></a> [egress\_cidr\_blocks](#input\_egress\_cidr\_blocks) | IPv4 CIDRs the builds may send traffic to, on any port. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
+| <a name="input_egress_tcp_ports"></a> [egress\_tcp\_ports](#input\_egress\_tcp\_ports) | TCP ports the builds may use toward egress\_cidr\_blocks. Null allows every protocol and port. | `list(number)` | `null` | no |
 | <a name="input_environment_type"></a> [environment\_type](#input\_environment\_type) | CodeBuild environment type, for example LINUX\_CONTAINER or ARM\_CONTAINER. | `string` | `"LINUX_CONTAINER"` | no |
 | <a name="input_image"></a> [image](#input\_image) | Build image. | `string` | `"aws/codebuild/amazonlinux-x86_64-standard:5.0"` | no |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Days CloudWatch Logs keeps build logs. | `number` | `30` | no |
