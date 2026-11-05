@@ -66,6 +66,12 @@ variable "egress_cidr_blocks" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "egress_tcp_ports" {
+  description = "TCP ports the builds may use toward egress_cidr_blocks. Null allows every protocol and port."
+  type        = list(number)
+  default     = null
+}
+
 variable "compute_type" {
   description = "CodeBuild compute type."
   type        = string
