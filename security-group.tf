@@ -10,6 +10,8 @@ resource "aws_security_group" "this" {
   }
 }
 
+# Runners need egress to GitHub; callers narrow it with egress_cidr_blocks.
+#trivy:ignore:AVD-AWS-0104
 resource "aws_vpc_security_group_egress_rule" "this" {
   for_each = toset(var.egress_cidr_blocks)
 
