@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.0
+
+- Add `privileged_mode` (default `false`). Turn it on for runners that build Docker images. Existing callers see no change.
+
 ## v1.1.0
 
 - Add `egress_tcp_ports`. When it is set, the runner security group allows only TCP on those ports toward `egress_cidr_blocks`. The default (null) keeps the v1.0.0 rules.

@@ -184,3 +184,20 @@ run "egress_all_by_default" {
     error_message = "Without egress_tcp_ports, egress stays open on every protocol, as in v1.0.0."
   }
 }
+
+run "privileged_off_by_default" {
+  assert {
+    condition     = aws_codebuild_project.this.environment[0].privileged_mode == false
+    error_message = "Privileged mode must be off unless the caller turns it on."
+  }
+}
+
+run "privileged_on" {
+  variables {
+    privileged_mode = true
+  }
+  assert {
+    condition     = aws_codebuild_project.this.environment[0].privileged_mode == true
+    error_message = "privileged_mode = true must turn on privileged mode for Docker builds."
+  }
+}
