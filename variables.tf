@@ -90,6 +90,12 @@ variable "environment_type" {
   default     = "LINUX_CONTAINER"
 }
 
+variable "privileged_mode" {
+  description = "Run builds in privileged mode, which Docker builds need. Turn it on only for runners that build images."
+  type        = bool
+  default     = false
+}
+
 variable "build_timeout" {
   description = "Minutes before CodeBuild stops a build (5 to 2160)."
   type        = number

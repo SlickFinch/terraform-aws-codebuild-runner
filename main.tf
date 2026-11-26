@@ -27,6 +27,7 @@ resource "aws_codebuild_project" "this" {
     compute_type                = var.compute_type
     image                       = var.image
     type                        = var.environment_type
+    privileged_mode             = var.privileged_mode
     image_pull_credentials_type = "CODEBUILD"
   }
 

@@ -109,6 +109,7 @@ No modules.
 | <a name="input_environment_type"></a> [environment\_type](#input\_environment\_type) | CodeBuild environment type, for example LINUX\_CONTAINER or ARM\_CONTAINER. | `string` | `"LINUX_CONTAINER"` | no |
 | <a name="input_image"></a> [image](#input\_image) | Build image. | `string` | `"aws/codebuild/amazonlinux-x86_64-standard:5.0"` | no |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | Days CloudWatch Logs keeps build logs. | `number` | `30` | no |
+| <a name="input_privileged_mode"></a> [privileged\_mode](#input\_privileged\_mode) | Run builds in privileged mode, which Docker builds need. Turn it on only for runners that build images. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags for every taggable resource. | `map(string)` | `{}` | no |
 
 ## Outputs
